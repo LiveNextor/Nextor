@@ -81,13 +81,12 @@ export function Verticals({ onNavigate }: VerticalsProps) {
             return (
               <div
                 key={index}
-                className="group relative bg-black border border-gray-800/50 overflow-hidden hover:border-[#ffff00]/50 transition-all duration-300"
+                className="group relative bg-black border border-gray-800/50 overflow-hidden hover:border-[#ffff00]/50 transition-all duration-300 flex flex-col h-full"
               >
                 {/* Number */}
                 <div className="absolute top-4 right-4 text-5xl text-gray-800 z-10">
                   {vertical.number}
                 </div>
-
                 {/* Image Background */}
                 <div className="relative h-64 overflow-hidden">
                   <img
@@ -96,36 +95,20 @@ export function Verticals({ onNavigate }: VerticalsProps) {
                     className="w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-110 transition-all duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-
-                  {vertical.isNew && (
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-[#ffff00] text-black tracking-wider z-20">
-                      NEW
-                    </div>
-                  )}
                 </div>
-
                 {/* Content */}
-                <div className="p-6">
+                <div className="p-6 pb-6 flex flex-col flex-1">
                   <div className="flex items-center gap-3 mb-4">
                     <Icon className="w-6 h-6 text-[#ffff00]" />
                     <div className="h-px flex-1 bg-gray-800"></div>
                   </div>
 
-                  <h3 className="mb-3 tracking-wider">{vertical.title}</h3>
-                  <p className="text-gray-400 mb-4 leading-relaxed text-sm">{vertical.description}</p>
+                  <div className="flex-1">
+                    <h3 className="mb-3 tracking-wider">{vertical.title}</h3>
+                    <p className="text-gray-400 mb-4 leading-relaxed text-sm">{vertical.description}</p>
+                  </div>
 
-                  {vertical.features && (
-                    <ul className="space-y-2 mb-4">
-                      {vertical.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-xs text-gray-500">
-                          <div className="w-1 h-1 bg-[#ffff00] rounded-full"></div>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <button className="group/btn flex items-center gap-2 text-[#ffff00] tracking-wider hover:gap-3 transition-all">
+                  <button className="group/btn self-start flex items-center gap-1 text-[#ffff00] tracking-wider hover:gap-2 transition-all mb-2">
                     EXPLORE
                     <ArrowRight className="w-4 h-4" />
                   </button>
