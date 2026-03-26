@@ -9,11 +9,39 @@ export function Contact() {
     vertical: '',
     message: ''
   });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you for your interest! We will get back to you soon.');
-    setFormData({ name: '', email: '', company: '', vertical: '', message: '' });
+    setStatus('submitting');
+    
+    try {
+      // Create account at staticforms.dev to get the API Key
+      const response = await fetch('https://api.staticforms.dev/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          apiKey: 'sf_2nai08996cl6j981md08nd0f' // TODO: Replace with your actual staticforms.dev apiKey
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', company: '', vertical: '', message: '' });
+        alert('Thank you for your interest! We will get back to you soon.');
+        setTimeout(() => setStatus('idle'), 3000);
+      } else {
+        setStatus('error');
+        alert('Error submitting form. Please try again or ensure your API key is correct.');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus('error');
+      alert('Network error. Please try again.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -153,11 +181,12 @@ export function Contact() {
 
               <button
                 type="submit"
-                className="group relative w-full px-8 py-4 bg-[#ffff00] text-black tracking-wider overflow-hidden"
+                disabled={status === 'submitting'}
+                className="group relative w-full px-8 py-4 bg-[#ffff00] text-black tracking-wider overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <div className="absolute inset-0 bg-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
                 <div className="relative flex items-center justify-center gap-2">
-                  SEND MESSAGE
+                  {status === 'submitting' ? 'SENDING...' : 'SEND MESSAGE'}
                   <Send className="w-5 h-5" />
                 </div>
               </button>
