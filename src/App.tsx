@@ -48,7 +48,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ overflowX: 'hidden', width: '100%', position: 'relative' }}>
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main>
